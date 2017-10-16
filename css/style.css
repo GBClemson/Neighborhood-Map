@@ -1,0 +1,174 @@
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+/*Colors*/
+.fuego-bg               { background-color: #aed12e; }
+.fuego-light-bg         { background-color: #d6e896; }
+.fuego-xlight-bg        { background-color: #f7faea; }
+.fuego-dark-bg          { background-color: #576818; }
+.fuego-xdark-bg         { background-color: #232a09; }
+.cucumber-bg            { background-color: #88a95b; }
+.cucumber-light-bg      { background-color: #b6ca9b; }
+.cucumber-xlight-bg     { background-color: #f3f6ee; }
+.cucumber-dark-bg       { background-color: #506435; }
+.cucumber-xdark-bg      { background-color: #1b2112; }
+.orange-bg              { background-color: #ffa500; }
+.orange-light-bg        { background-color: #ffc966; }
+.orange-xlight-bg       { background-color: #fff6e6; }
+.orange-dark-bg         { background-color: #996300; }
+.orange-xdark-bg        { background-color: #332100; }
+.indian-red-bg          { background-color: #cd5c5c; }
+.indian-red-light-bg    { background-color: #db8a8a; }
+.indian-red-xlight-bg   { background-color: #f9ebeb; }
+.indian-red-dark-bg     { background-color: #9c3030; }
+.indian-red-xdark-bg    { background-color: #3b1212; }
+.boston-blue-bg         { background-color: #4F9BB0; }
+.boston-blue-light-bg   { background-color: #95c3d0; }
+.boston-blue-xlight-bg  { background-color: #edf5f7; }
+.boston-blue-dark-bg    { background-color: #2f5d6a; }
+.boston-blue-xdark-bg   { background-color: #101f23; }
+/*Grayish Brown*/
+.americano-bg           { background-color: #8a7d72; }
+.americano-light-bg     { background-color: #bab2ab; }
+.americano-xlight-bg    { background-color: #f4f2f1; }
+.americano-dark-bg      { background-color: #544c45; }
+.americano-xdark-bg     { background-color: #1c1917; }
+
+#map {
+    height: 100%;
+}
+
+#wrapper {
+  padding-left: 250px;
+  transition: all 0.4s ease 0s;
+}
+
+#sidebar {
+  margin-left: -100%;
+  top: 120px;
+  left: 100%;
+  width: 250px;
+  background: #000;
+  position: fixed;
+  height: 100%;
+  overflow-y: auto;
+  z-index: 1000;
+  transition: all 0.4s ease 0s;
+}
+
+
+#wrapper.active {
+  padding-left: 0;
+}
+
+#wrapper.active #sidebar {
+  left: 0;
+}
+
+
+#page-content-wrapper {
+  width: 100%;
+  transition: all 0.4s ease 0s;
+}
+
+.navbar-fixed-top {
+	height: 140px;
+	background-color: gray;
+}
+
+.navbar-brand {
+	/*width: 250px;*/
+}
+
+.brand-title {
+	/*display: inline-block;*/
+	/*width: 200px;*/
+	font-size: 24px;
+	line-height: 24px;
+	background-color: orange;
+	color: white;
+}
+
+#menu-toggle {
+    text-decoration: none;
+    float: left;
+    color: #fff;
+    padding-right: 15px;
+}
+
+.top-box {
+	background-color: #88a95b;
+}
+
+.hike-details {
+	background-color: #4F9BB0;
+	display: inline-block;
+	width: 200px;
+	margin-top: 10px;
+}
+
+.weather-link {
+	background-color: #ffa500;
+	display: inline-block;
+	position: relative;
+	top: -20px;
+}
+
+.powered {
+	font-size: 10px;
+}
+
+.weather-info {
+	background-color: #cd5c5c;
+	display: inline-block;
+	position: relative;
+	top: -30px;
+}
+
+.photo {
+	height: 120px;
+}
+
+#waterfalls ul {
+  margin: 30px 0 0 0;
+}
+#waterfalls ul li{
+	/*
+    text-indent: -20px;
+    list-style-position: inside;
+	*/
+	list-style: none;
+}
+
+.bullet {
+	margin-right: 15px;
+}
+
+@media (max-width:767px) {
+
+	#wrapper {
+	  padding-left: 0;
+	}
+
+	#sidebar {
+	  left: 0;
+	}
+
+	#wrapper.active {
+	  position: relative;
+	  left: 250px;
+	}
+
+	#wrapper.active #sidebar {
+	  left: 250px;
+	  width: 250px;
+	  transition: all 0.4s ease 0s;
+	}
+
+	#menu-toggle {
+	  display: inline-block;
+	}
+}
