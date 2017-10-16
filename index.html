@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Neighborhood Map Project</title>
+    <meta charset="utf-8">
+    <meta name=viewport content="width=device-width,initial-scale=1">
+    
+    <link rel="stylesheet" href="css/bootstrap-3.3.7.min.css">
+    <link rel="stylesheet" href="css/style.css">  
+    
+</head>
+
+<body>
+
+    <div id="wrapper" class="container-fluid">
+        <nav class="navbar navbar-fixed-top" role="navigation">               
+            <div class="navbar-header col-xs-12">
+                <div class="row">
+                    <div  class="col-lg-2 col-md-3 col-sm-4 col-xs-5">
+                        <div  class="navbar-brand">
+                            <a id="menu-toggle" href="#" class="glyphicon glyphicon-align-justify btn-menu toggle"></a>
+                            <h3 class="brand-title text-center">Waterfalls of South Carolina</h3>
+                            <div data-bind="with: currentLocation"><h4 data-bind="text: title"></h4></div>
+                        </div>
+                    </div>
+                    <div class="col-lg-10 col-md-9 col-sm-8 hidden-xs top-box">
+                        <div class="hike-details">
+                            <div data-bind="with: currentLocation"><h4 data-bind="text: title"></h4></div>
+                            <div data-bind="with: currentLocation"><li><span>Hike Difficulty:&nbsp;</span><span data-bind="text: hikeDifficulty"></span></li></div>
+                            <div data-bind="with: currentLocation"><li><span>Hike Time:&nbsp;</span><span data-bind="text: hikeTime"></span><span>&nbsp;Minutes</span></li></div>
+                            <div data-bind="with: currentLocation"><li><span>Hike Length:&nbsp;</span><span data-bind="text: hikeLength"></span><span>&nbsp;Miles</span></li></div>
+                        </div>
+                        <div class="weather-link" data-bind="with: currentLocation">
+                            <p class="powered">Powered by Weather Underground</p>
+                            <a data-bind="attr: { href: weatherURL }">
+                                <img border="0" alt="wunderground" src="http://icons.wxug.com/graphics/wu2/logo_130x80.png">
+                            </a>
+                        </div>
+                        <div class="weather-info" data-bind="with: currentLocation">
+                            <h4 data-bind="text: title"></h4>
+                        </div>
+                    </div>
+                </div>
+            </div>          
+        </nav>
+        <!-- Sidebar -->
+        <div id="sidebar">
+            <nav id="waterfalls">
+                <ul data-bind="foreach: allLocations">
+                    <a data-bind="click: setLocation">
+                        <li data-bind="text: $data.title"></li>
+                    </a>
+                </ul>
+            </nav>
+            
+        </div>                  
+    </div>
+
+
+
+
+    <div id="map"></div>
+
+
+    <script src="js/lib/jquery-3.2.1.min.js"></script>
+    <script src="js/lib/bootstrap-3.3.7.min.js"></script>
+    <script src="js/lib/knockout-3.4.2.js"></script>
+    <script src="js/data.js"></script>
+    <script src="js/app.js"></script>
+    <script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAHenoW0f2LY2dlVzDz_KPhgdL-jm3ACk4&v=3&libraries=places&callback=initMap">
+    </script>
+
+</body>
+
+</html>
