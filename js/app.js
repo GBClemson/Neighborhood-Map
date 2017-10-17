@@ -73,16 +73,21 @@ var Location = function(locations){
     };
 
     // Weather Underground API call
-    this.getWeather = function(weatherURL){
-        var url = this.weatherURL;
-        /*
-        var dataType = "jsonp";
-        var success = function(parsed_json) {
-            var temp_f = parsed_json['current_observation']['temp_f'];
-            console.log("Current temperature is: " + temp_f);
-        };
-        */
-        console.log("weatherURL is: " +url);
+    this.getWeather = function(weatherURL, zip){
+        //var url = this.weatherURL;
+        
+        $.ajax({
+            url : self.weatherURL,
+            zip : self.zip,
+            dataType : "jsonp",
+            success : function(parsed_json) {
+                var conditions = parsed_json['forecast']['simpleforecast']['forecastday'][0]['conditions'];
+                var highTempF = parsed_json['forecast']['simpleforecast']['forecastday'][0]['high']['fahrenheit'];
+                var lowTempF = parsed_json['forecast']['simpleforecast']['forecastday'][0]['low']['fahrenheit'];
+                var pop = parsed_json['forecast']['simpleforecast']['forecastday'][0]['pop'];
+                console.log("Current condition in",self.zip+" is: "+conditions+" with a high of: "+highTempF+", low of: "+lowTempF+" and a "+pop+"% chance of rain!");
+            }
+        });
     };
 
     // define what happens when you click this location
@@ -187,9 +192,28 @@ function initMap() {
 /////////////// SIDEBAR /////////////////
 
 /*Menu-toggle*/
-$("#menu-toggle").click(function(e) {
-    e.preventDefault();
+$("#menu-toggle").click(function(sidebar) {
+    sidebar.preventDefault();
     $("#wrapper").toggleClass("active");
 });
 
 ///////////////// END - SIDEBAR ////////////////
+
+
+///////////////// WEATHER UNDERGROUND - API CALL //////////////
+/*
+jQuery(document).ready(function($) {
+    $.ajax({
+        url : "http://api.wunderground.com/api/7133c754f945f6c7/forecast/q/29621.json",
+        dataType : "jsonp",
+        success : function(parsed_json) {
+            var conditions = parsed_json['forecast']['simpleforecast']['forecastday'][0]['conditions'];
+            var highTempF = parsed_json['forecast']['simpleforecast']['forecastday'][0]['high']['fahrenheit'];
+            var lowTempF = parsed_json['forecast']['simpleforecast']['forecastday'][0]['low']['fahrenheit'];
+            var pop = parsed_json['forecast']['simpleforecast']['forecastday'][0]['pop'];
+            console.log("Current condition in Anderson, SC is: "+conditions+" with a high of: "+highTempF+", low of: "+lowTempF+" and a "+pop+"% chance of rain!");
+        }
+    });
+});
+*/
+///////////////// END - WEATHER UNDERGROUND - API CALL //////////////
