@@ -27,7 +27,7 @@ var Location = function(locations){
     this.hikeDifficulty = locations.hikeDifficulty;
     this.photoUrl = 'https://lh3.googleusercontent.com/p/'+self.photoID+'=h120-k';
     this.infoWindowContent = '<h4>'+self.title+'</h4>'+'<p>'+self.address+'</p> <img class="photo" src="'+self.photoUrl+'"></br>'+self.placeURL;
-    this.weatherURL = "https://api.wunderground.com/api/7133c754f945f6c7/forecast/q/"+self.zip+".json";
+    this.weatherURL = "http://api.wunderground.com/api/7133c754f945f6c7/forecast/q/"+self.zip+".json";
 
     /*
     service.getDetails({
