@@ -13,6 +13,7 @@ var Location = function(locations){
 
     var self = this;
     var photos = [];
+    var weather = [];
 
     this.title = locations.title;
     this.location = locations.location;
@@ -75,20 +76,38 @@ var Location = function(locations){
     // Weather Underground API call
     this.getWeather = function(weatherURL, zip){
         //var url = this.weatherURL;
-        
         $.ajax({
             url : self.weatherURL,
             zip : self.zip,
             dataType : "jsonp",
             success : function(parsed_json) {
-                var conditions = parsed_json['forecast']['simpleforecast']['forecastday'][0]['conditions'];
-                var highTempF = parsed_json['forecast']['simpleforecast']['forecastday'][0]['high']['fahrenheit'];
-                var lowTempF = parsed_json['forecast']['simpleforecast']['forecastday'][0]['low']['fahrenheit'];
-                var pop = parsed_json['forecast']['simpleforecast']['forecastday'][0]['pop'];
-                console.log("Current condition in",self.zip+" is: "+conditions+" with a high of: "+highTempF+", low of: "+lowTempF+" and a "+pop+"% chance of rain!");
+                if (weather.length === 0) {    
+                    for (var i = 0; i < 4; i++) {
+                        var weatherToday = {};
+                        conditionsToday = parsed_json['forecast']['simpleforecast']['forecastday'][i]['conditions'];
+                        weatherToday.conditions = conditionsToday;
+                        highTempFToday = parsed_json['forecast']['simpleforecast']['forecastday'][i]['high']['fahrenheit'];
+                        weatherToday.highTempF = highTempFToday;
+                        lowTempFToday = parsed_json['forecast']['simpleforecast']['forecastday'][i]['low']['fahrenheit'];
+                        weatherToday.lowTempF = lowTempFToday;
+                        popToday = parsed_json['forecast']['simpleforecast']['forecastday'][i]['pop'];
+                        weatherToday.pop = popToday;
+                        weather.push(weatherToday);
+                        //console.log('The high | low for day '+i+' is: ',weather[i].highTempF+' | ',weather[i].lowTempF);
+                    }
+                }else{
+                    console.log('You already have weather data for',ko.toJS(self.title));
+                }
             }
         });
+        this.weather = weather;
+        //console.log('the active location is: ',this.weather);
+        //return weather;
     };
+
+    // Convert Weather Underground JSON data to observable data
+    //this.weather = weather;
+    //console.log('the active location is: ',this.weather);
 
     // define what happens when you click this location
     this.setLocation = function(){
@@ -96,7 +115,7 @@ var Location = function(locations){
         currentLocation(this);
 
         // console.log to see if the photo arrays are being returned when a location is clicked
-        //console.log('currently, this for',ko.toJS(self.title),'is',self);
+        console.log('currently,',ko.toJS(self.title),'is',self);
 
         // get infoWindow content for the active location
         self.activeWindow();
