@@ -84,14 +84,22 @@ var Location = function(locations){
                 if (weather.length === 0) {    
                     for (var i = 0; i < 4; i++) {
                         var weatherToday = {};
+
+                        currentDayToday = parsed_json['forecast']['simpleforecast']['forecastday'][i]['date']['weekday'];
+                        weatherToday.currentDay = currentDayToday;
+
                         conditionsToday = parsed_json['forecast']['simpleforecast']['forecastday'][i]['conditions'];
                         weatherToday.conditions = conditionsToday;
+
                         highTempFToday = parsed_json['forecast']['simpleforecast']['forecastday'][i]['high']['fahrenheit'];
                         weatherToday.highTempF = highTempFToday;
+
                         lowTempFToday = parsed_json['forecast']['simpleforecast']['forecastday'][i]['low']['fahrenheit'];
                         weatherToday.lowTempF = lowTempFToday;
+
                         popToday = parsed_json['forecast']['simpleforecast']['forecastday'][i]['pop'];
                         weatherToday.pop = popToday;
+
                         weather.push(weatherToday);
                         //console.log('The high | low for day '+i+' is: ',weather[i].highTempF+' | ',weather[i].lowTempF);
                     }
@@ -101,8 +109,8 @@ var Location = function(locations){
             }
         });
         this.weather = weather;
-        //console.log('the active location is: ',this.weather);
-        //return weather;
+        //console.log('The first highTempF element of this.weather is ',this.weather[0].highTempF);
+        return this.weather;
     };
 
     // Convert Weather Underground JSON data to observable data
@@ -114,8 +122,8 @@ var Location = function(locations){
         // set this as active location
         currentLocation(this);
 
-        // console.log to see if the photo arrays are being returned when a location is clicked
-        console.log('currently,',ko.toJS(self.title),'is',self);
+        // This is a good place to see console logs of the active location
+        console.log('currently,',ko.toJS(self.title),'contains',self);
 
         // get infoWindow content for the active location
         self.activeWindow();
@@ -160,7 +168,7 @@ function viewModel() {
     //console.log('the observable array "allLocations" contains: ',ko.toJS(allLocations));
 
     // create observable for the current, active location
-    currentLocation = ko.observable('');
+    currentLocation = ko.observable('');   //currentLocation = ko.observable('');
 
     // Push each location to an observable array
     locations.forEach(function(data){

@@ -46,20 +46,6 @@ html, body {
   transition: all 0.4s ease 0s;
 }
 
-#sidebar {
-  	margin-left: -100%;
-  	top: 120px;
-  	left: 100%;
-  	width: 250px;
-  	background: #000;
-  	position: fixed;
-  	height: 100%;
-  	overflow-y: auto;
-  	z-index: 1000;
-  	transition: all 0.4s ease 0s;
-}
-
-
 #wrapper.active {
   	padding-left: 0;
 }
@@ -125,28 +111,25 @@ html, body {
 	background-color: #cd5c5c;
 	display: inline-block;
 	position: relative;
-	/*top: -10px;*/
+	top: 10px;
 }
 
-/*************pre made horizontal list**************/
-.weather-table {
-	display: table;   /* Allow the centering to work */
-	margin: 0 auto;
+.weather-table td {
+	width: 150px;
 }
 
-ul#weather-list {
-	background-color: #8a7d72;
-	min-width: 400px;
-	list-style: none;
-	padding: 15px;
+#sidebar {
+  	margin-left: -100%;
+  	top: 140px;
+  	left: 100%;
+  	width: 250px;
+  	background: #000;
+  	position: fixed;
+  	height: 100%;
+  	overflow-y: auto;
+  	z-index: 1031; /*must be higher than the bootstrap z-index for .navbar-fixed-top*/
+  	transition: all 0.4s ease 0s;
 }
-
-ul#weather-list li {
-	background-color: #ffa500;
-	display: inline;
-	margin: 15px;
-}
-/*************pre made horizontal list**************/
 
 
 .photo {
@@ -154,7 +137,7 @@ ul#weather-list li {
 }
 
 #waterfalls ul {
-  	margin: 30px 0 0 0;
+  	margin: 20px 0 0 0;
 }
 #waterfalls ul li{
 	list-style: none;
