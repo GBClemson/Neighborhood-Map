@@ -8,11 +8,13 @@ var map,
     marker,
     allLocations,
     currentLocation;
+    sidebarVisible = true;
 
 var Location = function(locations){
 
     var self = this;
-    var weather = [];
+    //var weather = [];
+    var weather = ko.observableArray([]);
 
     this.title = locations.title;
     this.location = locations.location;
@@ -28,6 +30,9 @@ var Location = function(locations){
     this.infoWindowContent = '<h4>'+self.title+'</h4>'+'<p>'+self.address+'</p> <img class="photo" src="'+self.photoUrl+'"></br>'+self.placeURL;
     this.weatherURL = "https://api.wunderground.com/api/7133c754f945f6c7/forecast/q/"+self.zip+".json";
 
+    this.weather = weather;
+    this.haveWeatherInfo = false;
+
     /*
     service.getDetails({
         placeId: this.placeID
@@ -36,7 +41,7 @@ var Location = function(locations){
             var photoUrl = place.photos[i].getUrl({maxHeight: 600});
             console.log('photosUrl for',ko.toJS(self.title),'is ',photoUrl);
             photos.push(photoUrl);
-            self.photos = photos;            
+            self.photos = photos;
         }
         //console.log('The returned photos array for',ko.toJS(self.title),'is',self.photos);
     });
@@ -74,21 +79,28 @@ var Location = function(locations){
 
     // Weather Underground API call
     this.getWeather = function(weatherURL, zip){
-        //var url = this.weatherURL;
-        $.ajax({
-            url : self.weatherURL,
-            zip : self.zip,
-            dataType : "jsonp",
-            success : function(parsed_json) {
-                if (weather.length === 0) {    
+        if (this.haveWeatherInfo) {
+            console.log('You already have weather data for',ko.toJS(self.title));
+        }else{
+            $.ajax({
+                url : self.weatherURL,
+                zip : self.zip,
+                dataType : "jsonp",
+                success : function(parsed_json) {
                     for (var i = 0; i < 4; i++) {
                         var weatherToday = {};
 
-                        currentDayToday = parsed_json['forecast']['simpleforecast']['forecastday'][i]['date']['weekday'];
-                        weatherToday.currentDay = currentDayToday;
+                        if (i === 0) {
+                            weatherToday.currentDay = 'Today';
+                        }else if (i === 1) {
+                            weatherToday.currentDay = 'Tomorrow';                        
+                        }else{
+                            currentDayToday = parsed_json['forecast']['simpleforecast']['forecastday'][i]['date']['weekday'];
+                            weatherToday.currentDay = currentDayToday;
+                        }
 
-                        conditionsToday = parsed_json['forecast']['simpleforecast']['forecastday'][i]['conditions'];
-                        weatherToday.conditions = conditionsToday;
+                        conditionsToday = parsed_json['forecast']['simpleforecast']['forecastday'][i]['icon'];
+                        weatherToday.conditionsIcon = "https://icons.wxug.com/i/c/v4/"+conditionsToday+".svg";
 
                         highTempFToday = parsed_json['forecast']['simpleforecast']['forecastday'][i]['high']['fahrenheit'];
                         weatherToday.highTempF = highTempFToday;
@@ -102,15 +114,12 @@ var Location = function(locations){
                         weather.push(weatherToday);
                         //console.log('The high | low for day '+i+' is: ',weather[i].highTempF+' | ',weather[i].lowTempF);
                     }
-                }else{
-                    console.log('You already have weather data for',ko.toJS(self.title));
                 }
-            }
-        });
+            });
+            this.haveWeatherInfo = true;
+        }
+        //slickWeather();
     };
-
-    // Convert Weather Underground JSON data to observable data
-    this.weather = weather;
 
     // define what happens when you click this location
     this.setLocation = function(){
@@ -128,19 +137,20 @@ var Location = function(locations){
 
         // This is a good place to see console logs of the active location
         console.log('currently,',ko.toJS(self.title),'contains',self);
+        //console.log('currently, the weather array in',ko.toJS(self.title),'contains',ko.toJS(self.weather));
 
     };
 
 
     // create marker at the correct location
     this.createMarker = function(){
-        
+
         self.marker = new google.maps.Marker({
             map: map,
             title: self.title,
             position: self.location,
             address: self.address,
-            animation: google.maps.Animation.DROP            
+            animation: google.maps.Animation.DROP
         });
 
         // add click event listener to the marker
@@ -197,14 +207,14 @@ function initMap() {
 
     service = new google.maps.places.PlacesService(map);
 
-    // Thank you Andrew Wodendaal for showing me how to keep 
+    // Thank you Andrew Wodendaal for showing me how to keep
     // the map centered on window resize:
     // https://andrewodendaal.com/keep-google-map-v3-centered-when-browser-is-resized/
     google.maps.event.addDomListener(window, "resize", function() {
         var center = map.getCenter();
         google.maps.event.trigger(map, "resize");
         map.setCenter(center);
-    });    
+    });
 
     ko.applyBindings(new viewModel());
 }
@@ -212,12 +222,84 @@ function initMap() {
 /////////////// END - INITIALIZE /////////////////
 
 
-/////////////// SIDEBAR /////////////////
+/////////////// SIDEBAR  AND SLICK CAROUSEL/////////////////
 
-/*Menu-toggle*/
-$("#menu-toggle").click(function(sidebar) {
-    sidebar.preventDefault();
-    $("#wrapper").toggleClass("active");
+$(window).resize(function() {
+    var windowWidth = $(window).width();
+    if(windowWidth >= 767){
+        if (sidebarVisible === false) {
+            $("#sidebar").removeClass("collapsed");
+            sidebarVisible = true;
+        }
+    }else{
+        if (sidebarVisible === true) {
+            $("#sidebar").addClass("collapsed");
+            sidebarVisible = false;
+        }
+    }
+});
+
+
+$(document).ready(function() {
+    $("#menu-toggle").click(function(sidebar) {
+        sidebar.preventDefault();
+        $("#sidebar").toggleClass("collapsed");
+        if (sidebarVisible === true) {
+            sidebarVisible = false;
+        }else{
+            sidebarVisible = true;
+        }
+    });
+    /*
+    $('.weather-info').slick({
+        dots: false,
+        arrows: true,
+        infinite: false,
+        speed: 300,
+        slidesToShow: 4,
+        slidesToScroll: 1,
+        responsive: [
+            {
+                breakpoint: 1050,
+                settings: {
+                    slidesToShow: 3,
+                    slidesToScroll: 1
+                }
+            },{
+                breakpoint: 900,
+                settings: {
+                    slidesToShow: 2,
+                    slidesToScroll: 1
+                }
+            },{
+                breakpoint: 750,
+                settings: {
+                    slidesToShow: 1,
+                    slidesToScroll: 1
+                }
+            }
+            // You can unslick at a given breakpoint now by adding:
+            // settings: "unslick"
+            // instead of a settings object
+        ]
+    });
+
+    $('.weather-info-sidebar').slick({
+        dots: false,
+        arrows: true,
+        infinite: false,
+        speed: 300,
+        slidesToShow: 1,
+        slidesToScroll: 1
+    });
+    */
 });
 
 ///////////////// END - SIDEBAR ////////////////
+
+
+/////////////////// SLICK CAROUSEL///////////////////
+
+
+
+/////////////////// END - SLICK ////////////////////

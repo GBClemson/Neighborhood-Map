@@ -2,6 +2,8 @@ html, body {
     height: 100%;
     margin: 0;
     padding: 0;
+    /*min-width: 600px;
+    width: auto !important;*/
 }
 
 /*Colors*/
@@ -40,20 +42,15 @@ html, body {
 #map {
     height: 100%;
 }
-
-#wrapper {
-  padding-left: 250px;
-  transition: all 0.4s ease 0s;
-}
-
+/*
 #wrapper.active {
-  	padding-left: 0;
+  	left: 250px; /*OLD VALUE: padding-left: 0;*/
+  	/*transition: all 0.4s ease 0s;*/
 }
-
-#wrapper.active #sidebar {
-    margin-left: calc(-100% - 250px);
+*/
+#wrapper {
+  	left: 0; /*OLD VALUE: padding-left: 250px;*/
 }
-
 
 #page-content-wrapper {
   	width: 100%;
@@ -65,8 +62,21 @@ html, body {
 	background-color: gray;
 }
 
+.navbar-header {
+    width: 100%;
+}
+
 .navbar-brand {
-	/*width: 250px;*/
+	width: 250px;
+	color: #ffffff;
+}
+
+.navbar-brand hr {
+	margin: 5px 0;
+}
+
+.navbar-brand .navbar-location {
+	color: #ffb92f;
 }
 
 .brand-title {
@@ -74,7 +84,6 @@ html, body {
 	/*width: 200px;*/
 	font-size: 24px;
 	line-height: 24px;
-	background-color: orange;
 	color: white;
 }
 
@@ -85,37 +94,80 @@ html, body {
     padding-right: 15px;
 }
 
-.top-box {
-	background-color: #88a95b;
+.navbar-fixed-top {
+	min-width: 600px;
+	overflow-x: auto !important;
 }
 
-.hike-details {
-	background-color: #4F9BB0;
+#hike-info {
+	/*background-color: #4F9BB0;*/
+	color: #ffffff;
+	border-left: 2px solid #ffffff;
 	display: inline-block;
-	width: 200px;
-	margin-top: 10px;
+	width: 180px;
+    height: 125px;
+    padding-left: 15px;
+    position: relative;
+    top: 0;
+	text-align: center;
+}
+
+#hike-info li {
+	list-style: none;
+    font-size: 12px;
+}
+
+#hike-info hr {
+	margin: 0;
+}
+
+#hike-header {
+	margin-bottom: 5px;
 }
 
 .weather-link {
-	background-color: #ffa500;
-	display: inline-block;
-	position: relative;
-	top: -20px;
+	/*background-color: #ffa500;*/
 }
 
 .powered {
-	font-size: 10px;
+	font-size: 12px;
+	color: #ffffff;
+	margin-bottom: 0;
 }
 
 .weather-info {
-	background-color: #cd5c5c;
-	display: inline-block;
+	/*background-color: #cd5c5c;*/
+	color: #ffffff;
+	/*display: inline-block;*/
 	position: relative;
-	top: 10px;
+	top: 6px;
+    margin-left: 30px;
+	width: calc(100% - 510px);
+	border-left: 2px solid #ffffff;
+	border-right: 2px solid #ffffff;
 }
 
 .weather-table td {
 	width: 150px;
+}
+
+.weather-today {
+	display: inline-block; /*display: inline-flex;*/
+	/*flex-wrap: nowrap;*/
+	text-align: center;
+	width: 200px; /*width: 24%;*/
+	height: 125px;
+	border-left: 1px solid #ffffff;
+	border-right: 1px solid #ffffff;
+}
+
+.weather-icon {
+	height: 40px;
+	margin: 0 auto 5px auto;
+}
+
+.weather-today p {
+	margin: 0 0 5px;
 }
 
 #sidebar {
@@ -123,7 +175,7 @@ html, body {
   	top: 140px;
   	left: 100%;
   	width: 250px;
-  	background: #000;
+  	background-color: #000;
   	position: fixed;
   	height: 100%;
   	overflow-y: auto;
@@ -131,6 +183,18 @@ html, body {
   	transition: all 0.4s ease 0s;
 }
 
+#sidebar.collapsed {
+    margin-left: calc(-100% - 250px);
+}
+
+.weather-info-sidebar {
+	/*background-color: #cd5c5c;*/
+	color: #ffffff;
+	position: relative;
+	top: 6px;
+    margin-left: 40px;
+    width: 160px;;
+}
 
 .photo {
 	height: 120px;
@@ -147,27 +211,20 @@ html, body {
 	margin-right: 15px;
 }
 
-@media (max-width:767px) {
+@media screen and (min-width: 600px) {
+    .weather-info-sidebar {
+        display: none;
+    }
+    .weather-info {
+        display: inline-block;
+    }
+}
 
-	#wrapper {
-	  	padding-left: 0;
-	}
-
-	#sidebar {
-	  	margin-left: calc(-100% - 250px);
-	}
-
-	#wrapper.active {
-	  	position: relative;
-	  	left: 250px;
-	}
-
-	#wrapper.active #sidebar {
-		margin-left: -100%;
-	  	transition: all 0.4s ease 0s;
-	}
-
-	#menu-toggle {
-	  	display: inline-block;
-	}
+@media screen and (max-width: 599px) {
+    .weather-info-sidebar {
+        display: block;
+    }
+    .weather-info {
+        display: none;
+    }
 }

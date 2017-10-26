@@ -5,74 +5,91 @@
     <title>Neighborhood Map Project</title>
     <meta charset="utf-8">
     <meta name=viewport content="width=device-width,initial-scale=1">
-    
+
     <link rel="stylesheet" href="css/bootstrap-3.3.7.min.css">
-    <link rel="stylesheet" href="css/style.css">  
-    
+    <!--<link rel="stylesheet" type="text/css" href="slick/slick.css"/>
+    <link rel="stylesheet" type="text/css" href="slick/slick-theme.css"/>-->
+    <link rel="stylesheet" href="css/style.css">
+
 </head>
 
 <body>
 
     <div id="wrapper" class="container-fluid">
-        <nav class="navbar navbar-fixed-top" role="navigation">               
-            <div class="navbar-header col-xs-12">
-                <div class="row">
-                    <div  class="col-lg-2 col-md-3 col-sm-4 col-xs-5">
-                        <div  class="navbar-brand">
-                            <a id="menu-toggle" href="#" class="glyphicon glyphicon-align-justify btn-menu toggle"></a>
-                            <h3 class="brand-title text-center">Waterfalls of South Carolina</h3>
-                            <div data-bind="with: currentLocation"><h4 data-bind="text: title"></h4></div>
-                        </div>
+        <nav class="navbar navbar-fixed-top" role="navigation">
+            <div class="navbar-header">
+                <div class="top-box">
+                    <div  class="navbar-brand text-center">
+                        <a id="menu-toggle" href="#" class="glyphicon glyphicon-align-justify btn-menu toggle"></a>
+                        <h3 class="brand-title">Waterfalls of South Carolina</h3>
+                        <hr>
+                        <div class="navbar-location" data-bind="with: currentLocation"><h4 data-bind="text: title"></h4></div>
                     </div>
-                    <div class="col-lg-10 col-md-9 col-sm-8 hidden-xs top-box" data-bind="with: currentLocation">
-                        <div class="hike-details">
-                            <h4 data-bind="text: title"></h4>
-                            <li><span>Hike Difficulty:&nbsp;</span><span data-bind="text: hikeDifficulty"></span></li>
-                            <li><span>Hike Time:&nbsp;</span><span data-bind="text: hikeTime"></span><span>&nbsp;Minutes</span></li>
-                            <li><span>Hike Length:&nbsp;</span><span data-bind="text: hikeLength"></span><span>&nbsp;Miles</span></li>
+
+                    <div id="location-info" data-bind="with: currentLocation">    <!--data-bind="with: currentLocation"-->
+                        <div id="hike-info">
+                            <h4 id="hike-header">Hike Details</h4>
+                            <li><span><strong>Difficulty:&nbsp;</strong></span><span data-bind="text: hikeDifficulty"></span></li>
+                            <li><span><strong>Time:&nbsp;</strong></span><span data-bind="text: hikeTime"></span><span>&nbsp;Minutes</span></li>
+                            <li><span><strong>Length:&nbsp;</strong></span><span data-bind="text: hikeLength"></span><span>&nbsp;Miles</span></li>
+                            <hr>
+                            <div class="weather-link">
+                                <p class="powered">Forecasts Powered by:</p>
+                                <a data-bind="attr: { href: weatherURL }" target="_blank">
+                                    <img width="90px" border="0" alt="wunderground" src="img/wundergroundLogo_4c_rev_horz.png">
+                                </a>
+                            </div>
                         </div>
-                        <div class="weather-link">
-                            <p class="powered">Powered by Weather Underground</p>
-                            <a data-bind="attr: { href: weatherURL }" target="_blank">
-                                <img border="0" alt="wunderground" src="https://icons.wxug.com/graphics/wu2/logo_130x80.png">
-                            </a>
+                        
+                        <!--Knockout-->
+                        
+                        <div class="weather-info" data-bind="foreach: $data.weather">
+                            <div class="weather-today">
+                                <h5 class="currentDayHTML" data-bind="text: currentDay"></h5>
+                                <p><img width="40px" data-bind="attr:{src: conditionsIcon}" /></p>
+                                <p><span class="highTempHTML" data-bind="text: highTempF"></span><span>&#8457;</span> | <span class="lowTempHTML" data-bind="text: lowTempF"></span><span>&#8457;</span></p>
+                                <p><span class="popHTML" data-bind="text: pop"></span><span>% precip.</span></p>
+                            </div>
                         </div>
+                        
+
+                        <!--Slick Carousel-->
+                        <!--
                         <div class="weather-info">
-                            <!--<h4 data-bind="text: title"></h4>-->
-                            <table>
-                                <thead class="weather-table">
-                                    <tr data-bind="foreach: $data.weather">
-                                        <td class="currentDayHTML" data-bind="text: currentDay"></td>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr data-bind="foreach: $data.weather">
-                                        <td class="conditionsHTML" data-bind="text: conditions"></td>
-                                    </tr>
-                                    <tr data-bind="foreach: $data.weather">
-                                        <td class="highTempHTML" data-bind="text: highTempF"></td>
-                                    </tr>
-                                    <tr data-bind="foreach: $data.weather">
-                                        <td class="lowTempHTML" data-bind="text: lowTempF"></td>
-                                    </tr>
-                                    <tr data-bind="foreach: $data.weather">
-                                        <td class="popHTML" data-bind="text: pop"></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-
-
-                            <!--<ul data-bind="foreach: $data.weather">
-                                <li data-bind="text: currentDay"></li>
-                            </ul>-->
-
+                            <div class="weather-today">
+                                <h5 class="currentDayHTML">Today</h5>
+                                <img class="weather-icon" src="https://icons.wxug.com/i/c/v4/partlycloudy.svg"/>
+                                <p><span class="highTempHTML">60</span><span>&#8457;</span> | <span class="lowTempHTML">37</span><span>&#8457;</span></p>
+                                <p><span class="popHTML">0</span><span>% precip.</span></p>
+                            </div>
+                            <div class="weather-today">
+                                <h5 class="currentDayHTML">Tomorrow</h5>
+                                <p><img class="weather-icon" src="https://icons.wxug.com/i/c/v4/clear.svg"/></p>
+                                <p><span class="highTempHTML">66</span><span>&#8457;</span> | <span class="lowTempHTML">44</span><span>&#8457;</span></p>
+                                <p><span class="popHTML">0</span><span>% precip.</span></p>
+                            </div>
+                            <div class="weather-today">
+                                <h5 class="currentDayHTML">Friday</h5>
+                                <p><img class="weather-icon" src="https://icons.wxug.com/i/c/v4/clear.svg"/></p>
+                                <p><span class="highTempHTML">72</span><span>&#8457;</span> | <span class="lowTempHTML">47</span><span>&#8457;</span></p>
+                                <p><span class="popHTML">10</span><span>% precip.</span></p>
+                            </div>
+                            <div class="weather-today">
+                                <h5 class="currentDayHTML">Saturday</h5>
+                                <p><img class="weather-icon" src="https://icons.wxug.com/i/c/v4/rain.svg"/></p>
+                                <p><span class="highTempHTML">65</span><span>&#8457;</span> | <span class="lowTempHTML">42</span><span>&#8457;</span></p>
+                                <p><span class="popHTML">100</span><span>% precip.</span></p>
+                            </div>
                         </div>
+                        -->
+
+
                     </div>
                 </div>
-            </div>          
+            </div>
         </nav>
         <!-- Sidebar -->
-        <div id="sidebar">
+        <div id="sidebar" class="">
             <nav id="waterfalls">
                 <ul data-bind="foreach: allLocations">
                     <a data-bind="click: setLocation">
@@ -80,8 +97,50 @@
                     </a>
                 </ul>
             </nav>
+
+            <!--Knockout-->
+             
+            <div class="weather-info" data-bind="foreach: $data.weather">
+                <div class="weather-today">
+                    <h5 class="currentDayHTML" data-bind="text: currentDay"></h5>
+                    <p><img width="40px" data-bind="attr:{src: conditionsIcon}" /></p>
+                    <p><span class="highTempHTML" data-bind="text: highTempF"></span><span>&#8457;</span> | <span class="lowTempHTML" data-bind="text: lowTempF"></span><span>&#8457;</span></p>
+                    <p><span class="popHTML" data-bind="text: pop"></span><span>% precip.</span></p>
+                </div>
+            </div>
             
-        </div>                  
+
+            <!--Slick Carousel-->
+            <!--
+            <div class="weather-info-sidebar">
+                <div class="weather-today">
+                    <h5 class="currentDayHTML">Today</h5>
+                    <img class="weather-icon" src="https://icons.wxug.com/i/c/v4/partlycloudy.svg"/>
+                    <p><span class="highTempHTML">60</span><span>&#8457;</span> | <span class="lowTempHTML">37</span><span>&#8457;</span></p>
+                    <p><span class="popHTML">0</span><span>% precip.</span></p>
+                </div>
+                <div class="weather-today">
+                    <h5 class="currentDayHTML">Tomorrow</h5>
+                    <p><img class="weather-icon" src="https://icons.wxug.com/i/c/v4/clear.svg"/></p>
+                    <p><span class="highTempHTML">66</span><span>&#8457;</span> | <span class="lowTempHTML">44</span><span>&#8457;</span></p>
+                    <p><span class="popHTML">0</span><span>% precip.</span></p>
+                </div>
+                <div class="weather-today">
+                    <h5 class="currentDayHTML">Friday</h5>
+                    <p><img class="weather-icon" src="https://icons.wxug.com/i/c/v4/clear.svg"/></p>
+                    <p><span class="highTempHTML">72</span><span>&#8457;</span> | <span class="lowTempHTML">47</span><span>&#8457;</span></p>
+                    <p><span class="popHTML">10</span><span>% precip.</span></p>
+                </div>
+                <div class="weather-today">
+                    <h5 class="currentDayHTML">Saturday</h5>
+                    <p><img class="weather-icon" src="https://icons.wxug.com/i/c/v4/rain.svg"/></p>
+                    <p><span class="highTempHTML">65</span><span>&#8457;</span> | <span class="lowTempHTML">42</span><span>&#8457;</span></p>
+                    <p><span class="popHTML">100</span><span>% precip.</span></p>
+                </div>
+            </div>
+            -->
+
+        </div>
     </div>
 
 
@@ -95,6 +154,7 @@
     <script src="js/lib/knockout-3.4.2.js"></script>
     <script src="js/data.js"></script>
     <script src="js/app.js"></script>
+    <!--<script type="text/javascript" src="slick/slick.min.js"></script>-->
     <script async defer
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAHenoW0f2LY2dlVzDz_KPhgdL-jm3ACk4&v=3&libraries=places&callback=initMap">
     </script>
