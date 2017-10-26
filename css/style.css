@@ -142,7 +142,7 @@ html, body {
 	position: relative;
 	top: 6px;
     margin-left: 30px;
-	width: calc(100% - 510px);
+	/*width: calc(100% - 510px);*/
 	border-left: 2px solid #ffffff;
 	border-right: 2px solid #ffffff;
 }
