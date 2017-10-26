@@ -81,7 +81,9 @@ var Location = function(locations){
     this.getWeather = function(weatherURL, zip){
         if (this.haveWeatherInfo) {
             console.log('You already have weather data for',ko.toJS(self.title));
+            slickWeather();
         }else{
+            this.haveWeatherInfo = true;
             $.ajax({
                 url : self.weatherURL,
                 zip : self.zip,
@@ -115,11 +117,15 @@ var Location = function(locations){
                         //console.log('The high | low for day '+i+' is: ',weather[i].highTempF+' | ',weather[i].lowTempF);
                     }
                 }
+
+                // Thank you to stack overflow for enlightening me about the .done function
+                // https://stackoverflow.com/questions/16076009/confused-on-jquery-ajax-done-function
+            }).done(function(){                
+                slickWeather();
             });
-            this.haveWeatherInfo = true;
+            this.haveWeatherInfo = true;                       
         }
-        //slickWeather();
-    };
+    }; 
 
     // define what happens when you click this location
     this.setLocation = function(){
@@ -300,6 +306,46 @@ $(document).ready(function() {
 
 /////////////////// SLICK CAROUSEL///////////////////
 
-
+function slickWeather() {            
+    $('.weather-info').slick({
+        dots: false,
+        arrows: true,
+        infinite: false,
+        speed: 300,
+        slidesToShow: 4,
+        slidesToScroll: 1,
+        responsive: [
+            {
+                breakpoint: 1050,
+                settings: {
+                    slidesToShow: 3,
+                    slidesToScroll: 1
+                }
+            },{
+                breakpoint: 900,
+                settings: {
+                    slidesToShow: 2,
+                    slidesToScroll: 1
+                }
+            },{
+                breakpoint: 750,
+                settings: {
+                    slidesToShow: 1,
+                    slidesToScroll: 1
+                }
+            }
+        ]
+    });
+    
+    $('.weather-info-sidebar').slick({
+        dots: false,
+        arrows: true,
+        infinite: false,
+        speed: 300,
+        slidesToShow: 1,
+        slidesToScroll: 1
+    });
+    
+}
 
 /////////////////// END - SLICK ////////////////////

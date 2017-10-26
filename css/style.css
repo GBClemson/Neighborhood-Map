@@ -6,6 +6,10 @@ html, body {
     width: auto !important;*/
 }
 
+h4 {
+    font-size: 16px;
+}
+
 /*Colors*/
 .fuego-bg               { background-color: #aed12e; }
 .fuego-light-bg         { background-color: #d6e896; }
@@ -42,15 +46,6 @@ html, body {
 #map {
     height: 100%;
 }
-/*
-#wrapper.active {
-  	left: 250px; /*OLD VALUE: padding-left: 0;*/
-  	/*transition: all 0.4s ease 0s;*/
-}
-*/
-#wrapper {
-  	left: 0; /*OLD VALUE: padding-left: 250px;*/
-}
 
 #page-content-wrapper {
   	width: 100%;
@@ -59,7 +54,10 @@ html, body {
 
 .navbar-fixed-top {
 	height: 140px;
-	background-color: gray;
+	min-width: 600px;
+	overflow-x: auto !important;
+	background-color: rgba(0, 0, 0, 0.8);
+  	position: fixed;
 }
 
 .navbar-header {
@@ -67,7 +65,7 @@ html, body {
 }
 
 .navbar-brand {
-	width: 250px;
+	width: 200px;
 	color: #ffffff;
 }
 
@@ -80,11 +78,10 @@ html, body {
 }
 
 .brand-title {
-	/*display: inline-block;*/
-	/*width: 200px;*/
-	font-size: 24px;
-	line-height: 24px;
-	color: white;
+    font-size: 18px;
+    line-height: 18px;
+    color: white;
+    margin-top: 30px;
 }
 
 #menu-toggle {
@@ -94,22 +91,17 @@ html, body {
     padding-right: 15px;
 }
 
-.navbar-fixed-top {
-	min-width: 600px;
-	overflow-x: auto !important;
-}
-
 #hike-info {
 	/*background-color: #4F9BB0;*/
 	color: #ffffff;
-	border-left: 2px solid #ffffff;
 	display: inline-block;
+	position: relative;
 	width: 180px;
     height: 125px;
-    padding-left: 15px;
-    position: relative;
     top: 0;
+    padding-left: 15px;
 	text-align: center;
+	border-left: 2px solid #ffffff;
 }
 
 #hike-info li {
@@ -138,11 +130,12 @@ html, body {
 .weather-info {
 	/*background-color: #cd5c5c;*/
 	color: #ffffff;
-	/*display: inline-block;*/
+	display: inline-block;
 	position: relative;
+	width: calc(100% - 460px);
+	height: 125px;
 	top: 6px;
     margin-left: 30px;
-	/*width: calc(100% - 510px);*/
 	border-left: 2px solid #ffffff;
 	border-right: 2px solid #ffffff;
 }
@@ -155,7 +148,6 @@ html, body {
 	display: inline-block; /*display: inline-flex;*/
 	/*flex-wrap: nowrap;*/
 	text-align: center;
-	width: 200px; /*width: 24%;*/
 	height: 125px;
 	border-left: 1px solid #ffffff;
 	border-right: 1px solid #ffffff;
@@ -171,20 +163,21 @@ html, body {
 }
 
 #sidebar {
-  	margin-left: -100%;
-  	top: 140px;
+	position: fixed;
+  	top: 0;
   	left: 100%;
-  	width: 250px;
-  	background-color: #000;
-  	position: fixed;
+  	padding-top: 140px;
+  	width: 200px;
   	height: 100%;
+  	margin-left: -100%;
+  	background-color: rgba(50, 50, 50, 0.8);  	
   	overflow-y: auto;
-  	z-index: 1031; /*must be higher than the bootstrap z-index for .navbar-fixed-top*/
+  	z-index: 1029;
   	transition: all 0.4s ease 0s;
 }
 
 #sidebar.collapsed {
-    margin-left: calc(-100% - 250px);
+    margin-left: calc(-100% - 200px);
 }
 
 .weather-info-sidebar {
@@ -193,18 +186,40 @@ html, body {
 	position: relative;
 	top: 6px;
     margin-left: 40px;
-    width: 160px;;
+    width: 120px;
 }
 
 .photo {
 	height: 120px;
 }
 
-#waterfalls ul {
-  	margin: 20px 0 0 0;
+#sidebar #locations ul {
+    margin: 20px 0;
+    padding: 0;
+    font-size: 14px;
 }
-#waterfalls ul li{
+
+ul li{
+	text-decoration: none !important;
 	list-style: none;
+    line-height: 20px;
+    padding-left: 20px;
+    color: #ffffff;
+    transition: all 0.4s ease 0s;  
+}
+
+ul li:hover, active, focus, visited {
+	background-color: rgba(131, 147, 106, 0.8);    
+}
+
+ul a {
+	color: #ffffff;
+	transition: all 0.4s ease 0s;
+}
+
+ul a:hover, active, focus, visited {
+	text-decoration: none !important;
+	color: #ffb92f;
 }
 
 .bullet {
