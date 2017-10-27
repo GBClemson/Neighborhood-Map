@@ -51,47 +51,19 @@
                                 <p><span class="popHTML" data-bind="text: pop"></span><span>% precip.</span></p>
                             </div>
                         </div>
-                        
-
-                        <!--Slick Carousel-->
-                        <!--
-                        <div class="weather-info">
-                            <div class="weather-today">
-                                <h5 class="currentDayHTML">Today</h5>
-                                <img class="weather-icon" src="https://icons.wxug.com/i/c/v4/partlycloudy.svg"/>
-                                <p><span class="highTempHTML">60</span><span>&#8457;</span> | <span class="lowTempHTML">37</span><span>&#8457;</span></p>
-                                <p><span class="popHTML">0</span><span>% precip.</span></p>
-                            </div>
-                            <div class="weather-today">
-                                <h5 class="currentDayHTML">Tomorrow</h5>
-                                <p><img class="weather-icon" src="https://icons.wxug.com/i/c/v4/clear.svg"/></p>
-                                <p><span class="highTempHTML">66</span><span>&#8457;</span> | <span class="lowTempHTML">44</span><span>&#8457;</span></p>
-                                <p><span class="popHTML">0</span><span>% precip.</span></p>
-                            </div>
-                            <div class="weather-today">
-                                <h5 class="currentDayHTML">Friday</h5>
-                                <p><img class="weather-icon" src="https://icons.wxug.com/i/c/v4/clear.svg"/></p>
-                                <p><span class="highTempHTML">72</span><span>&#8457;</span> | <span class="lowTempHTML">47</span><span>&#8457;</span></p>
-                                <p><span class="popHTML">10</span><span>% precip.</span></p>
-                            </div>
-                            <div class="weather-today">
-                                <h5 class="currentDayHTML">Saturday</h5>
-                                <p><img class="weather-icon" src="https://icons.wxug.com/i/c/v4/rain.svg"/></p>
-                                <p><span class="highTempHTML">65</span><span>&#8457;</span> | <span class="lowTempHTML">42</span><span>&#8457;</span></p>
-                                <p><span class="popHTML">100</span><span>% precip.</span></p>
-                            </div>
-                        </div>
-                        -->
-
-
                     </div>
                 </div>
             </div>
         </nav>
         <!-- Sidebar -->
         <div id="sidebar">
+            <h4 class="locationFilter">Filter by hike difficulty:</h4>
+            <select data-bind="options: hikeDifficulties, value: selectedDifficulty,
+                optionsCaption: 'Choose one...'">                       
+            </select>
+            <hr>
             <nav id="locations">
-                <ul data-bind="foreach: allLocations">
+                <ul data-bind="foreach: visibleLocations"> <!--data-bind="foreach: allLocations"-->
                     <li data-bind="click: setLocation">
                         <a data-bind="text: $data.title"></a>
                     </li>
@@ -109,45 +81,10 @@
                     </div>
                 </div>
             </div>
-
-            <!--Slick Carousel-->
-            <!--
-            <div class="weather-info-sidebar">
-                <div class="weather-today">
-                    <h5 class="currentDayHTML">Today</h5>
-                    <img class="weather-icon" src="https://icons.wxug.com/i/c/v4/partlycloudy.svg"/>
-                    <p><span class="highTempHTML">60</span><span>&#8457;</span> | <span class="lowTempHTML">37</span><span>&#8457;</span></p>
-                    <p><span class="popHTML">0</span><span>% precip.</span></p>
-                </div>
-                <div class="weather-today">
-                    <h5 class="currentDayHTML">Tomorrow</h5>
-                    <p><img class="weather-icon" src="https://icons.wxug.com/i/c/v4/clear.svg"/></p>
-                    <p><span class="highTempHTML">66</span><span>&#8457;</span> | <span class="lowTempHTML">44</span><span>&#8457;</span></p>
-                    <p><span class="popHTML">0</span><span>% precip.</span></p>
-                </div>
-                <div class="weather-today">
-                    <h5 class="currentDayHTML">Friday</h5>
-                    <p><img class="weather-icon" src="https://icons.wxug.com/i/c/v4/clear.svg"/></p>
-                    <p><span class="highTempHTML">72</span><span>&#8457;</span> | <span class="lowTempHTML">47</span><span>&#8457;</span></p>
-                    <p><span class="popHTML">10</span><span>% precip.</span></p>
-                </div>
-                <div class="weather-today">
-                    <h5 class="currentDayHTML">Saturday</h5>
-                    <p><img class="weather-icon" src="https://icons.wxug.com/i/c/v4/rain.svg"/></p>
-                    <p><span class="highTempHTML">65</span><span>&#8457;</span> | <span class="lowTempHTML">42</span><span>&#8457;</span></p>
-                    <p><span class="popHTML">100</span><span>% precip.</span></p>
-                </div>
-            </div>
-            -->
-
         </div>
     </div>
 
-
-
-
     <div id="map"></div>
-
 
     <script src="js/lib/jquery-3.2.1.min.js"></script>
     <script src="js/lib/bootstrap-3.3.7.min.js"></script>

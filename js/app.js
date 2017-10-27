@@ -25,7 +25,7 @@ var Location = function(locations){
     this.zip = locations.zip;
     this.hikeTime = locations.hikeTime;
     this.hikeLength = locations.hikeLength;
-    this.hikeDifficulty = locations.hikeDifficulty;
+    this.hikeDifficulty = ko.observable(locations.hikeDifficulty);
     this.photoUrl = 'https://lh3.googleusercontent.com/p/'+self.photoID+'=h120-k';
     this.infoWindowContent = '<h4>'+self.title+'</h4>'+'<p>'+self.address+'</p> <img class="photo" src="'+self.photoUrl+'"></br>'+self.placeURL;
     this.weatherURL = "https://api.wunderground.com/api/7133c754f945f6c7/forecast/q/"+self.zip+".json";
@@ -121,9 +121,22 @@ var Location = function(locations){
                 // Thank you to stack overflow for enlightening me about the .done function
                 // https://stackoverflow.com/questions/16076009/confused-on-jquery-ajax-done-function
             }).done(function(){                
+                
+                // Once the weather data has loaded we run the slick slider function
                 slickWeather();
-            });
-            this.haveWeatherInfo = true;                       
+            
+            }).fail(function() {
+
+                // If API cannot get data, display error message
+                console.log("Unable to get weather data from weather underground");
+                //this.weather.currentDay = 'Unable to get weather data';
+
+            }).always(function() {
+                
+                this.haveWeatherInfo = true;
+                //console.log('currently, the currentDay in',ko.toJS(self.title),'is',ko.toJS(self.weather));
+            
+            });                      
         }
     }; 
 
@@ -143,7 +156,6 @@ var Location = function(locations){
 
         // This is a good place to see console logs of the active location
         console.log('currently,',ko.toJS(self.title),'contains',self);
-        //console.log('currently, the weather array in',ko.toJS(self.title),'contains',ko.toJS(self.weather));
 
     };
 
@@ -186,6 +198,48 @@ function viewModel() {
     locations.forEach(function(data){
         allLocations.push( new Location(data) );
     });
+
+    // Filters Visible locations based on selection
+    hikeDifficulties = ko.observableArray(['All', 'Easy', 'Moderate', 'Difficult']);
+    selectedDifficulty = ko.observable();
+
+    // filter visible locations based on searchterm
+    this.visibleLocations = ko.computed(function(){
+
+        // return a list of locations filtered by the searchTerm
+        return allLocations().filter(function (location) {
+
+            var visible = true;
+            
+            if ( ko.toJS(selectedDifficulty) === undefined || ko.toJS(selectedDifficulty) === ko.toJS(location.hikeDifficulty) || ko.toJS(selectedDifficulty) === 'All' )  {
+                visible = true;
+            
+            }else {
+                
+                visible = false;
+
+            }
+            
+            /*
+            switch ( ko.toJS(selectedDifficulty) ) {
+                case undefined :
+                case 'All' :
+                case ko.toJS(location.hikeDifficulty) :
+                    display = true;            
+            } 
+            */
+            // toggle map marker based on the filter
+            location.marker.setVisible(visible);
+
+            // close infowindow
+            infowindow.close();
+
+            return visible;
+
+        });
+
+    });
+
 }
 
 /////////////// END - VIEW MODEL ////////////////
@@ -228,7 +282,7 @@ function initMap() {
 /////////////// END - INITIALIZE /////////////////
 
 
-/////////////// SIDEBAR  AND SLICK CAROUSEL/////////////////
+/////////////// SIDEBAR /////////////////
 
 $(window).resize(function() {
     var windowWidth = $(window).width();
@@ -256,49 +310,6 @@ $(document).ready(function() {
             sidebarVisible = true;
         }
     });
-    /*
-    $('.weather-info').slick({
-        dots: false,
-        arrows: true,
-        infinite: false,
-        speed: 300,
-        slidesToShow: 4,
-        slidesToScroll: 1,
-        responsive: [
-            {
-                breakpoint: 1050,
-                settings: {
-                    slidesToShow: 3,
-                    slidesToScroll: 1
-                }
-            },{
-                breakpoint: 900,
-                settings: {
-                    slidesToShow: 2,
-                    slidesToScroll: 1
-                }
-            },{
-                breakpoint: 750,
-                settings: {
-                    slidesToShow: 1,
-                    slidesToScroll: 1
-                }
-            }
-            // You can unslick at a given breakpoint now by adding:
-            // settings: "unslick"
-            // instead of a settings object
-        ]
-    });
-
-    $('.weather-info-sidebar').slick({
-        dots: false,
-        arrows: true,
-        infinite: false,
-        speed: 300,
-        slidesToShow: 1,
-        slidesToScroll: 1
-    });
-    */
 });
 
 ///////////////// END - SIDEBAR ////////////////

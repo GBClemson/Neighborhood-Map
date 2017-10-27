@@ -164,16 +164,27 @@ h4 {
 
 #sidebar {
 	position: fixed;
-  	top: 0;
-  	left: 100%;
-  	padding-top: 140px;
-  	width: 200px;
-  	height: 100%;
-  	margin-left: -100%;
-  	background-color: rgba(50, 50, 50, 0.8);  	
-  	overflow-y: auto;
-  	z-index: 1029;
-  	transition: all 0.4s ease 0s;
+	top: 0;
+  left: 100%;
+  padding: 140px 0 0 0;
+  width: 200px;
+  height: 100%;
+  margin-left: -100%;
+  background-color: rgba(50, 50, 50, 0.8);
+  color: #fff;
+  overflow-y: auto;
+  z-index: 1029;
+  transition: all 0.4s ease 0s;
+}
+
+.locationFilter {
+  margin: 10px 20px;
+  color: #fff;
+}
+
+#sidebar select {
+  color: #000;
+  margin: 0 20px;
 }
 
 #sidebar.collapsed {
@@ -182,7 +193,7 @@ h4 {
 
 .weather-info-sidebar {
 	/*background-color: #cd5c5c;*/
-	color: #ffffff;
+	color: #fff;
 	position: relative;
 	top: 6px;
     margin-left: 40px;
@@ -194,7 +205,7 @@ h4 {
 }
 
 #sidebar #locations ul {
-    margin: 20px 0;
+    /*margin: 20px 0;*/
     padding: 0;
     font-size: 14px;
 }
@@ -202,14 +213,15 @@ h4 {
 ul li{
 	text-decoration: none !important;
 	list-style: none;
-    line-height: 20px;
-    padding-left: 20px;
-    color: #ffffff;
-    transition: all 0.4s ease 0s;  
+  line-height: 20px;
+  padding-left: 20px;
+  color: #ffffff;
+  transition: all 0.4s ease 0s;  
 }
 
 ul li:hover, active, focus, visited {
-	background-color: rgba(131, 147, 106, 0.8);    
+	background-color: rgba(131, 147, 106, 0.8);
+  color: #ffb92f;
 }
 
 ul a {
@@ -219,7 +231,7 @@ ul a {
 
 ul a:hover, active, focus, visited {
 	text-decoration: none !important;
-	color: #ffb92f;
+  color: #ffb92f;
 }
 
 .bullet {
