@@ -13,7 +13,6 @@ var map,
 var Location = function(locations){
 
     var self = this;
-    //var weather = [];
     var weather = ko.observableArray([]);
 
     this.title = locations.title;
@@ -32,20 +31,6 @@ var Location = function(locations){
 
     this.weather = weather;
     this.haveWeatherInfo = false;
-
-    /*
-    service.getDetails({
-        placeId: this.placeID
-    }, function(place, status) {
-        for (var i = 0; i < place.photos.length; i++) {
-            var photoUrl = place.photos[i].getUrl({maxHeight: 600});
-            console.log('photosUrl for',ko.toJS(self.title),'is ',photoUrl);
-            photos.push(photoUrl);
-            self.photos = photos;
-        }
-        //console.log('The returned photos array for',ko.toJS(self.title),'is',self.photos);
-    });
-    */
 
     // This function populates the infowindow when the marker is clicked. We'll only allow
     // one infowindow which will open at the marker that is clicked, and populate based
@@ -100,7 +85,6 @@ var Location = function(locations){
                             currentDayToday = parsed_json['forecast']['simpleforecast']['forecastday'][i]['date']['weekday'];
                             weatherToday.currentDay = currentDayToday;
                         }
-
                         conditionsToday = parsed_json['forecast']['simpleforecast']['forecastday'][i]['icon'];
                         weatherToday.conditionsIcon = "https://icons.wxug.com/i/c/v4/"+conditionsToday+".svg";
 
@@ -114,7 +98,7 @@ var Location = function(locations){
                         weatherToday.pop = popToday;
 
                         weather.push(weatherToday);
-                        //console.log('The high | low for day '+i+' is: ',weather[i].highTempF+' | ',weather[i].lowTempF);
+                        	//console.log('The high | low for day '+i+' is: ',weather[i].highTempF+' | ',weather[i].lowTempF);
                     }
                 }
 
@@ -128,14 +112,10 @@ var Location = function(locations){
             }).fail(function() {
 
                 // If API cannot get data, display error message
-                console.log("Unable to get weather data from weather underground");
-                //this.weather.currentDay = 'Unable to get weather data';
+                window.alert('Unable to connect to weather data. Please try again later!');
 
-            }).always(function() {
-                
-                this.haveWeatherInfo = true;
-                //console.log('currently, the currentDay in',ko.toJS(self.title),'is',ko.toJS(self.weather));
-            
+            }).always(function() {                
+                this.haveWeatherInfo = true;            
             });                      
         }
     }; 
@@ -154,9 +134,15 @@ var Location = function(locations){
         // make the active marker bounce
         self.markerBounce();
 
-        // This is a good place to see console logs of the active location
-        console.log('currently,',ko.toJS(self.title),'contains',self);
+        // center the map on this marker
+        var mapCenter = self.location;
+        // adjusting the map center point to account for the menu / weather overlays
+        mapCenter.lat = mapCenter.lat + 0.15;
+        mapCenter.lng = mapCenter.lng - 0.15;
+        map.setCenter( mapCenter );
 
+        // This is a good place to see console logs of the active location
+        	//console.log('currently,',ko.toJS(self.title),'contains',self);
     };
 
 
@@ -212,22 +198,11 @@ function viewModel() {
             var visible = true;
             
             if ( ko.toJS(selectedDifficulty) === undefined || ko.toJS(selectedDifficulty) === ko.toJS(location.hikeDifficulty) || ko.toJS(selectedDifficulty) === 'All' )  {
-                visible = true;
-            
-            }else {
-                
+                visible = true;            
+            } else {                
                 visible = false;
-
             }
-            
-            /*
-            switch ( ko.toJS(selectedDifficulty) ) {
-                case undefined :
-                case 'All' :
-                case ko.toJS(location.hikeDifficulty) :
-                    display = true;            
-            } 
-            */
+
             // toggle map marker based on the filter
             location.marker.setVisible(visible);
 
@@ -346,8 +321,7 @@ function slickWeather() {
                 }
             }
         ]
-    });
-    
+    });    
     $('.weather-info-sidebar').slick({
         dots: false,
         arrows: true,
@@ -355,8 +329,7 @@ function slickWeather() {
         speed: 300,
         slidesToShow: 1,
         slidesToScroll: 1
-    });
-    
+    });    
 }
 
 /////////////////// END - SLICK ////////////////////
