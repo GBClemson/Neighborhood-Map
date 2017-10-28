@@ -31,23 +31,33 @@ var Location = function(locations){
 
     this.weather = weather;
     this.haveWeatherInfo = false;
-
-    // This function populates the infowindow when the marker is clicked. We'll only allow
-    // one infowindow which will open at the marker that is clicked, and populate based
-    // on that markers position.
-    this.activeWindow = function(){
-        // Check to make sure the infowindow is not already opened on this marker.
-        if (infowindow.marker != self) {
-            infowindow.marker = self;
-            infowindow.setContent(self.infoWindowContent);
-            infowindow.open(map);
-            infowindow.setPosition( self.location );
-            // Make sure the marker property is cleared if the infowindow is closed.
-            infowindow.addListener('closeclick',function(){
-                infowindow.setLocation = null;
-            });
+    
+    this.mapCenterAdjusted = false;
+    
+    
+    // adjusting the map center point to account for the menu / weather overlays
+    this.mapCenterAdjust = function(){
+        console.log( 'mapCenterAdjusted BEGIN for ',ko.toJS(self.title)+' is: ',ko.toJS(self.mapCenterAdjusted) );
+        if ( ko.toJS(this.mapCenterAdjusted) === false ) {
+            console.log( 'mapCenterAdjusted IF for ',ko.toJS(self.title)+' is: ',ko.toJS(self.mapCenterAdjusted) );    
+            this.newMapCenter = this.location;
+            self.newMapCenter.lat += 0.15;
+            self.newMapCenter.lng -= 0.15;
+            this.mapCenterAdjusted = true;
+        }else{
+            console.log( 'mapCenterAdjusted ELSE for ',ko.toJS(self.title)+' is: ',ko.toJS(self.mapCenterAdjusted) );
         }
+        console.log( 'mapCenterAdjusted END for ',ko.toJS(self.title)+' is: ',ko.toJS(self.mapCenterAdjusted) );
+        map.setCenter(self.newMapCenter);
     }
+    
+
+    // adjusting the map center point to account for the menu / weather overlays
+    this.mapCenterAdjust = function(){
+        map.setCenter(self.location);
+        map.panBy(-100, -180);
+    }
+    
 
     // animate the marker when you click it
     this.markerBounce = function(){
@@ -60,7 +70,26 @@ var Location = function(locations){
         // animate current marker
         self.marker.setAnimation(google.maps.Animation.BOUNCE);
         setTimeout(function(){ self.marker.setAnimation(null); }, 725);
-    };
+    }
+
+    // This function populates the infowindow when the marker is clicked. We'll only allow
+    // one infowindow which will open at the marker that is clicked, and populate based
+    // on that markers position.
+    this.activeWindow = function(){
+        // Check to make sure the infowindow is not already opened on this marker.
+        if (infowindow.marker != self) {
+            infowindow.marker = self;
+            infowindow.setContent(self.infoWindowContent);
+            infowindow.open(map);
+            infowindow.setPosition( self.location );
+            // center the map on this marker
+            self.mapCenterAdjust();
+            // Make sure the marker property is cleared if the infowindow is closed.
+            infowindow.addListener('closeclick',function(){
+                infowindow.setLocation = null;
+            });
+        }
+    }
 
     // Weather Underground API call
     this.getWeather = function(weatherURL, zip){
@@ -102,8 +131,8 @@ var Location = function(locations){
                     }
                 }
 
-                // Thank you to stack overflow for enlightening me about the .done function
-                // https://stackoverflow.com/questions/16076009/confused-on-jquery-ajax-done-function
+            // Thank you to stack overflow for enlightening me about the .done function
+            // https://stackoverflow.com/questions/16076009/confused-on-jquery-ajax-done-function
             }).done(function(){                
                 
                 // Once the weather data has loaded we run the slick slider function
@@ -134,15 +163,8 @@ var Location = function(locations){
         // make the active marker bounce
         self.markerBounce();
 
-        // center the map on this marker
-        var mapCenter = self.location;
-        // adjusting the map center point to account for the menu / weather overlays
-        mapCenter.lat = mapCenter.lat + 0.15;
-        mapCenter.lng = mapCenter.lng - 0.15;
-        map.setCenter( mapCenter );
-
         // This is a good place to see console logs of the active location
-        	//console.log('currently,',ko.toJS(self.title),'contains',self);
+        	console.log('currently,',ko.toJS(self.title),'contains',self);
     };
 
 
@@ -194,27 +216,20 @@ function viewModel() {
 
         // return a list of locations filtered by the searchTerm
         return allLocations().filter(function (location) {
-
-            var visible = true;
-            
+            var visible = true;            
             if ( ko.toJS(selectedDifficulty) === undefined || ko.toJS(selectedDifficulty) === ko.toJS(location.hikeDifficulty) || ko.toJS(selectedDifficulty) === 'All' )  {
                 visible = true;            
             } else {                
                 visible = false;
             }
-
             // toggle map marker based on the filter
             location.marker.setVisible(visible);
-
+            
             // close infowindow
             infowindow.close();
-
             return visible;
-
         });
-
     });
-
 }
 
 /////////////// END - VIEW MODEL ////////////////
@@ -237,7 +252,7 @@ function initMap() {
     infowindow = new google.maps.InfoWindow({
         content: '',
         infoposition: {},
-        pixelOffset: {width: -2, height: -40}
+        pixelOffset: {width: 0, height: -40}
     });
 
     service = new google.maps.places.PlacesService(map);
