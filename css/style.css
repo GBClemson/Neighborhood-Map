@@ -1,7 +1,50 @@
+@font-face {
+    font-family: 'Lato-Regular';
+    src: url('../fonts/Lato/Lato-Regular.ttf');
+}
+@font-face {
+    font-family: 'Lato-Bold';
+    src: url('../fonts/Lato/Lato-Bold.ttf');
+}
+@font-face {
+    font-family: 'Lato-Italic';
+    src: url('../fonts/Lato/Lato-Italic.ttf');
+}
+@font-face {
+    font-family: 'Lato-Bold-Italic';
+    src: url('../fonts/Lato/Lato-BoldItalic.ttf');
+}
+@font-face {
+    font-family: 'Lato-Black';
+    src: url('../fonts/Lato/Lato-Black.ttf');
+}
+
+@font-face {
+    font-family: 'Amaranth-Regular';
+    src: url('../fonts/Amaranth/Amaranth-Regular.ttf');
+}
+@font-face {
+    font-family: 'Amaranth-Bold';
+    src: url('../fonts/Amaranth/Amaranth-Bold.ttf');
+}
+@font-face {
+    font-family: 'Amaranth-Italic';
+    src: url('../fonts/Amaranth/Amaranth-Italic.ttf');
+}
+@font-face {
+    font-family: 'Amaranth-Bold-Italic';
+    src: url('../fonts/Amaranth/Amaranth-BoldItalic.ttf');
+}
+
 html, body {
   height: 100%;
   margin: 0;
   padding: 0;
+  font-family: 'Lato-Regular';
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Amaranth-Bold';
 }
 
 h4 {
@@ -145,10 +188,12 @@ h4 {
 
 .locationFilter {
   margin: 10px 20px;
+  font-size: 14px;
   color: #fff;
 }
 
 #sidebar select {
+  font-size: 12px;
   color: #000;
   margin: 0 20px;
 }
