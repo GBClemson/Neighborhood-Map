@@ -17,4 +17,12 @@ https://gbclemson.github.io/Udacity-FEND-Neighborhood-Map/
 * Slick Slider to control how much weather data can be seen based on display size
 * When a display is too small it will place the weather data on the sidebar below the locations
 
+#### Thanks ####
+A big thank you to the following resources that helped me get over different hurdles along the way:
+
+* Andrew Wodendaal - Google Maps Centering on window resize
+  * https://andrewodendaal.com/keep-google-map-v3-centered-when-browser-is-resized/
+* Stack overflow for enlightening me about the .done function and how to use the panBy method
+  * https://stackoverflow.com/questions/16076009/confused-on-jquery-ajax-done-function
+  * https://stackoverflow.com/questions/3473367/how-to-offset-the-center-of-a-google-maps-api-v3-in-pixels
 
