@@ -118,7 +118,7 @@ var Location = function(locations){
             
             }).fail(function() {
 
-                // If API cannot get data, display error message
+                // If Weather Underground API cannot get data, display error message
                 window.alert('Unable to connect to weather data. Please try again later!');
 
             }).always(function() {                
@@ -247,6 +247,11 @@ function initMap() {
     ko.applyBindings(new viewModel());
 }
 
+function googleError() {
+    // If we cannot connect to Google Maps, display error message
+    window.alert('Unable to connect to Google Maps right now. Please try again later!');
+}
+
 /////////////// END - INITIALIZE /////////////////
 
 
@@ -326,3 +331,6 @@ function slickWeather() {
 }
 
 /////////////////// END - SLICK ////////////////////
+
+
+///
