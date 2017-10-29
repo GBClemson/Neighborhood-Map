@@ -1,4 +1,3 @@
-
 /////////////// MODEL ////////////////
 
 // Define Global Variables
@@ -7,7 +6,7 @@ var map,
     service,
     marker,
     allLocations,
-    currentLocation;
+    currentLocation,
     sidebarVisible = true;
 
 var Location = function(locations){
@@ -36,7 +35,7 @@ var Location = function(locations){
     this.mapCenterAdjust = function(){
         map.setCenter(self.location);
         map.panBy(-100, -180);
-    }    
+    };   
 
     // animate the marker when you click it
     this.markerBounce = function(){
@@ -49,7 +48,7 @@ var Location = function(locations){
         // animate current marker
         self.marker.setAnimation(google.maps.Animation.BOUNCE);
         setTimeout(function(){ self.marker.setAnimation(null); }, 725);
-    }
+    };
 
     // This function populates the infowindow when the marker is clicked. We'll only allow
     // one infowindow which will open at the marker that is clicked, and populate based
@@ -68,7 +67,7 @@ var Location = function(locations){
                 infowindow.setLocation = null;
             });
         }
-    }
+    };
 
     // Weather Underground API call
     this.getWeather = function(weatherURL, zip){
@@ -90,23 +89,23 @@ var Location = function(locations){
                         }else if (i === 1) {
                             weatherToday.currentDay = 'Tomorrow';                        
                         }else{
-                            currentDayToday = parsed_json['forecast']['simpleforecast']['forecastday'][i]['date']['weekday'];
+                            currentDayToday = parsed_json.forecast.simpleforecast.forecastday[i].date.weekday;
                             weatherToday.currentDay = currentDayToday;
                         }
-                        conditionsToday = parsed_json['forecast']['simpleforecast']['forecastday'][i]['icon'];
+                        conditionsToday = parsed_json.forecast.simpleforecast.forecastday[i].icon;
                         weatherToday.conditionsIcon = "https://icons.wxug.com/i/c/v4/"+conditionsToday+".svg";
 
-                        highTempFToday = parsed_json['forecast']['simpleforecast']['forecastday'][i]['high']['fahrenheit'];
+                        highTempFToday = parsed_json.forecast.simpleforecast.forecastday[i].high.fahrenheit;
                         weatherToday.highTempF = highTempFToday;
 
-                        lowTempFToday = parsed_json['forecast']['simpleforecast']['forecastday'][i]['low']['fahrenheit'];
+                        lowTempFToday = parsed_json.forecast.simpleforecast.forecastday[i].low.fahrenheit;
                         weatherToday.lowTempF = lowTempFToday;
 
-                        popToday = parsed_json['forecast']['simpleforecast']['forecastday'][i]['pop'];
+                        popToday = parsed_json.forecast.simpleforecast.forecastday[i].pop;
                         weatherToday.pop = popToday;
 
                         weather.push(weatherToday);
-                        	//console.log('The high | low for day '+i+' is: ',weather[i].highTempF+' | ',weather[i].lowTempF);
+                            //console.log('The high | low for day '+i+' is: ',weather[i].highTempF+' | ',weather[i].lowTempF);
                     }
                 }
 
@@ -143,7 +142,7 @@ var Location = function(locations){
         self.markerBounce();
 
         // This is a good place to see console logs of the active location
-        	//console.log('currently,',ko.toJS(self.title),'contains',self);
+            //console.log('currently,',ko.toJS(self.title),'contains',self);
     };
 
 
@@ -164,7 +163,7 @@ var Location = function(locations){
         });
 
     }();
-}
+};
 
 /////////////// END - MODEL ////////////////
 
