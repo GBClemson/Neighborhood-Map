@@ -30,34 +30,13 @@ var Location = function(locations){
     this.weatherURL = "https://api.wunderground.com/api/7133c754f945f6c7/forecast/q/"+self.zip+".json";
 
     this.weather = weather;
-    this.haveWeatherInfo = false;
-    
-    this.mapCenterAdjusted = false;
-    
-    
-    // adjusting the map center point to account for the menu / weather overlays
-    this.mapCenterAdjust = function(){
-        console.log( 'mapCenterAdjusted BEGIN for ',ko.toJS(self.title)+' is: ',ko.toJS(self.mapCenterAdjusted) );
-        if ( ko.toJS(this.mapCenterAdjusted) === false ) {
-            console.log( 'mapCenterAdjusted IF for ',ko.toJS(self.title)+' is: ',ko.toJS(self.mapCenterAdjusted) );    
-            this.newMapCenter = this.location;
-            self.newMapCenter.lat += 0.15;
-            self.newMapCenter.lng -= 0.15;
-            this.mapCenterAdjusted = true;
-        }else{
-            console.log( 'mapCenterAdjusted ELSE for ',ko.toJS(self.title)+' is: ',ko.toJS(self.mapCenterAdjusted) );
-        }
-        console.log( 'mapCenterAdjusted END for ',ko.toJS(self.title)+' is: ',ko.toJS(self.mapCenterAdjusted) );
-        map.setCenter(self.newMapCenter);
-    }
-    
+    this.haveWeatherInfo = false;    
 
     // adjusting the map center point to account for the menu / weather overlays
     this.mapCenterAdjust = function(){
         map.setCenter(self.location);
         map.panBy(-100, -180);
-    }
-    
+    }    
 
     // animate the marker when you click it
     this.markerBounce = function(){
@@ -164,7 +143,7 @@ var Location = function(locations){
         self.markerBounce();
 
         // This is a good place to see console logs of the active location
-        	console.log('currently,',ko.toJS(self.title),'contains',self);
+        	//console.log('currently,',ko.toJS(self.title),'contains',self);
     };
 
 
