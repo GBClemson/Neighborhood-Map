@@ -2,7 +2,7 @@
 Responsive web app that offers hiking and weather information for some of the top waterfalls in South Carolina.
 
 ### See it live at: ###
-https://gbclemson.github.io/Udacity-FEND-Neighborhood-Map/
+https://gbclemson.github.io/Neighborhood-Map/
 
 #### To Successfully Run the application ####
 1. You must have an active internet connection as this web app connects to google maps as well as the weather underground api.
