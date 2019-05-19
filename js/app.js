@@ -22,14 +22,14 @@ var Location = function(locations){
     this.address = locations.address;
     this.zip = locations.zip;
     this.lat = locations.location.lat;
-    this.lon = locations.location.lon;
+    this.lng = locations.location.lng;
     this.hikeTime = locations.hikeTime;
     this.hikeLength = locations.hikeLength;
     this.hikeDifficulty = ko.observable(locations.hikeDifficulty);
     this.photoUrl = 'https://lh3.googleusercontent.com/p/'+self.photoID+'=h120-k';
     this.infoWindowContent = '<h4>'+self.title+'</h4>'+'<p>'+self.address+'</p> <img class="photo" src="'+self.photoUrl+'"></br>'+self.placeURL;
-    //this.weatherURL = "https://api.wunderground.com/api/7133c754f945f6c7/forecast/q/"+self.zip+".json";
-    this.weatherURL = "https://api.darksky.net/forecast/ec377f26cbb200c9a9cb9967779499a4/"self.lat+","+self.lon+"?exclude=currently,minutely,hourly,alerts,flags,offset"
+    this.weatherURL = "https://api.darksky.net/forecast/ec377f26cbb200c9a9cb9967779499a4/"+self.lat+","+self.lng+"?exclude=currently,minutely,hourly,alerts,flags,offset"
+    this.apiURL = 'https://darksky.net/poweredby/';
     this.weather = weather;
     this.haveWeatherInfo = false;    
 
@@ -83,6 +83,8 @@ var Location = function(locations){
                 zip : self.zip,
                 dataType : "jsonp",
                 success : function(parsed_json) {
+                    console.log('API Sucess...');
+                    console.log('The API call contains: ',parsed_json.daily.data);
                     for (var i = 0; i < 4; i++) {
                         var weatherToday = {};
 
@@ -91,20 +93,26 @@ var Location = function(locations){
                         }else if (i === 1) {
                             weatherToday.currentDay = 'Tomorrow';                        
                         }else{
-                            currentDayToday = parsed_json.forecast.simpleforecast.forecastday[i].date.weekday;
-                            weatherToday.currentDay = currentDayToday;
+                            thisDayStamp = parsed_json.daily.data[i].time;
+                            var d = new Date(thisDayStamp*1000);
+                            var thisDay = d.getDay();
+                            var dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+                            var thisDayWord = dayNames[thisDay];
+                            console.log('thisDayWord = ',thisDayWord);
+                            weatherToday.currentDay = thisDayWord;
                         }
-                        conditionsToday = parsed_json.forecast.simpleforecast.forecastday[i].icon;
-                        weatherToday.conditionsIcon = "https://icons.wxug.com/i/c/v4/"+conditionsToday+".svg";
+                        conditionsToday =parsed_json.daily.data[i].icon;
+                        //weatherToday.conditionsIcon = "https://icons.wxug.com/i/c/v4/"+conditionsToday+".svg";
+                        weatherToday.conditionsIcon = 'https://gbclemson.github.io/Neighborhood-Map/img/icons/'+conditionsToday+'.svg';                        
 
-                        highTempFToday = parsed_json.forecast.simpleforecast.forecastday[i].high.fahrenheit;
+                        highTempFToday = parsed_json.daily.data[i].temperatureHigh;
                         weatherToday.highTempF = highTempFToday;
 
-                        lowTempFToday = parsed_json.forecast.simpleforecast.forecastday[i].low.fahrenheit;
+                        lowTempFToday = parsed_json.daily.data[i].temperatureLow;
                         weatherToday.lowTempF = lowTempFToday;
 
-                        popToday = parsed_json.forecast.simpleforecast.forecastday[i].pop;
-                        weatherToday.pop = popToday;
+                        popToday = parsed_json.daily.data[i].precipProbability;
+                        weatherToday.pop = Math.round(popToday*100);
 
                         weather.push(weatherToday);
                             //console.log('The high | low for day '+i+' is: ',weather[i].highTempF+' | ',weather[i].lowTempF);
