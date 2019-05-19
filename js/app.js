@@ -21,13 +21,15 @@ var Location = function(locations){
     this.placeURL = '</br><a href="https://www.google.com/maps/place/?q=place_id:'+self.placeID+'" target="_blank">See it on Google Maps!</a>';
     this.address = locations.address;
     this.zip = locations.zip;
+    this.lat = locations.location.lat;
+    this.lon = locations.location.lon;
     this.hikeTime = locations.hikeTime;
     this.hikeLength = locations.hikeLength;
     this.hikeDifficulty = ko.observable(locations.hikeDifficulty);
     this.photoUrl = 'https://lh3.googleusercontent.com/p/'+self.photoID+'=h120-k';
     this.infoWindowContent = '<h4>'+self.title+'</h4>'+'<p>'+self.address+'</p> <img class="photo" src="'+self.photoUrl+'"></br>'+self.placeURL;
-    this.weatherURL = "https://api.wunderground.com/api/7133c754f945f6c7/forecast/q/"+self.zip+".json";
-
+    //this.weatherURL = "https://api.wunderground.com/api/7133c754f945f6c7/forecast/q/"+self.zip+".json";
+    this.weatherURL = "https://api.darksky.net/forecast/ec377f26cbb200c9a9cb9967779499a4/"self.lat+","+self.lon+"?exclude=currently,minutely,hourly,alerts,flags,offset"
     this.weather = weather;
     this.haveWeatherInfo = false;    
 
