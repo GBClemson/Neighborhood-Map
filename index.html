@@ -28,17 +28,18 @@
 
                     <div id="location-info" data-bind="with: currentLocation">    <!--data-bind="with: currentLocation"-->
                         <div id="hike-info">
-                            <h4 id="hike-header">Hike Details</h4>
-                            <li><span><strong>Difficulty:&nbsp;</strong></span><span data-bind="text: hikeDifficulty"></span></li>
-                            <li><span><strong>Time:&nbsp;</strong></span><span data-bind="text: hikeTime"></span><span>&nbsp;Minutes</span></li>
-                            <li><span><strong>Length:&nbsp;</strong></span><span data-bind="text: hikeLength"></span><span>&nbsp;Miles</span></li>
-                            <hr>
-                            <div class="weather-link">
-                                <p class="powered">Forecasts Powered by:</p>
-                                <a data-bind="attr: { href: weatherURL }" target="_blank">
-                                    <img width="90px" border="0" alt="wunderground" src="img/wundergroundLogo_4c_rev_horz.png">
-                                </a>
-                            </div>
+                          <h4 id="hike-header">Hike Details</h4>
+                          <li><span><strong>Difficulty:&nbsp;</strong></span><span data-bind="text: hikeDifficulty"></span></li>
+                          <li><span><strong>Time:&nbsp;</strong></span><span data-bind="text: hikeTime"></span><span>&nbsp;Minutes</span></li>
+                          <li><span><strong>Length:&nbsp;</strong></span><span data-bind="text: hikeLength"></span><span>&nbsp;Miles</span></li>
+                          <hr>
+                          <div id="weather-link">
+                            <a data-bind="attr: { href: apiURL }" target="_blank" href="https://darksky.net/poweredby/">                            
+                              <p class="powered">Powered by Dark Sky:                                
+                                <img border="0" alt="wunderground" src="img/darkskylogo.png" height="30px">
+                              </p>
+                            </a>
+                          </div>
                         </div>
                         
                         <!--Knockout-->
